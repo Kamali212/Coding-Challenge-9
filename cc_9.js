@@ -28,8 +28,12 @@ class Manager extends Employee {
         return `Manager: ${this.name}, Id: ${this.id}, Department: ${this.department}, Salary: ${this.salary}, Team Size: ${this.teamSize}` // Return details with team size 
     }
     calculateBonus() { // Method to calculate bonus
-        return this.salary * 0.10 * 12
+        return this.salary * 0.10 * 12 
     }   
+
+    calculateAnnualSalary() {
+        return this.salary * 12 + this.calculateBonus(); // Update to include bonus in total payroll
+    }
 };
 
 const mgr1 = new Manager("John Smith", 201, "IT", 8000, 5); // Create nre manager 
@@ -56,21 +60,24 @@ class Company { // Create a company class
 
     // Task 4 Implementing a Payroll System
 
-    calculateTotalPayroll() {
-        return this.employee.reduce((total, employee) => {
+    calculateTotalPayroll() { // Method to calculate payroll
+        return this.employee.reduce((total, employee) => { // Use reduce to calculate total salary and add it to the total
             return total + employee.calculateAnnualSalary();
-        })
-
+        }, 0);
     }
+
+     // Task 5 Implementing Promotion
+
+     promoteToManager (employee, teamSize) { // Method to change employee to manager
+        const index = this.employee.indexOf(employee); // Locate employee in array
+        this.employee[index] = new Manager(employee.name, employee.id, employee.department, employee.salary, teamSize); // Create manager and retain original details
+     }
 };
-
-
-
-
 
 const company = new Company("TechCorp");
 company.addEmployee(emp1); // Expected output: "Employee: Alice Johnson, ID: 101, Department: Sales, Salary: $5000"
 company.addEmployee(mgr1); // Expected output: "Manager: John Smith, ID: 201, Department: IT, Salary: $8000, Team Size: 5"
 company.listEmployees(); //
-console.log(company.calculateTotalPayroll()); 
-
+console.log(company.calculateTotalPayroll()); // Expected output: 165600
+company.promoteToManager(emp1, 3); // Expected output: "Manager: Alice Johnson, ID: 101, Department: Sales, Salary: $5000, Team Size: 3"
+company.listEmployees();
