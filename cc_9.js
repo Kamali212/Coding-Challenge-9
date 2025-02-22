@@ -53,9 +53,24 @@ class Company { // Create a company class
     listEmployees() {
         this.employee.forEach(employee => console.log(employee.getDetails())); // Use the for each method to list employees 
     }
+
+    // Task 4 Implementing a Payroll System
+
+    calculateTotalPayroll() {
+        return this.employee.reduce((total, employee) => {
+            return total + employee.calculateAnnualSalary();
+        })
+
+    }
 };
+
+
+
+
 
 const company = new Company("TechCorp");
 company.addEmployee(emp1); // Expected output: "Employee: Alice Johnson, ID: 101, Department: Sales, Salary: $5000"
 company.addEmployee(mgr1); // Expected output: "Manager: John Smith, ID: 201, Department: IT, Salary: $8000, Team Size: 5"
 company.listEmployees(); //
+console.log(company.calculateTotalPayroll()); 
+
